@@ -26,10 +26,6 @@ python和pyqt5学了几天后，为了保护日薄西山的眼睛，并学以致
 
 ### 界面图片
 
-![主窗口](..\images\software.png)
-
-![弹出窗口](..\images\software2.png)
-
 ### 最终代码
 我先是用Qtdesigner搭好基础界面，并将ui文件转换为py文件，即Eyes_pop_ui.py和Eyes_ui.py，再用以下代码实现所有逻辑和界面美化。
 
