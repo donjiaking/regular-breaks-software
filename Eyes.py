@@ -25,10 +25,8 @@ flag = False  # 用来判断是否该结束线程，True为结束，结束后只
 user_name = getpass.getuser()  # 获取当前用户名
 target_path = 'C:\\Users\\' + user_name + '\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\Eyes.lnk'
 path_created = 'C:\\Users\\' + user_name + '\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\Eyes2.lnk'
-source_path = os.path.abspath("Eyes.exe")  # 根据文件名获取绝对路径
-wDir = os.path.dirname("Eyes.exe")   # 根据文件名获取目录
-# source_path = r'D:\code\python\PycharmProjects\pyqttest\dist\Eyes.exe'
-# wDir = r'D:\code\python\PycharmProjects\pyqttest\dist'
+source_path = r'D:\code\python\PycharmProjects\pyqttest\dist\Eyes.exe'
+wDir = r'D:\code\python\PycharmProjects\pyqttest\dist'
 
 
 class MyPop(Eyes_pop_ui.Ui_MainWindow, QMainWindow):
@@ -39,7 +37,7 @@ class MyPop(Eyes_pop_ui.Ui_MainWindow, QMainWindow):
         self.setupUi(self)
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
         palette = QPalette()  # 设置背景
-        palette.setBrush(QPalette.Background, QBrush(QPixmap(r"images\flower.jpg")))
+        palette.setBrush(QPalette.Background, QBrush(QPixmap(wDir + r"\images\flower.jpg")))
 
         self.setPalette(palette)
         self.label.setStyleSheet("QLabel{color:white}""QLabel:hover{color:violet}")
@@ -57,7 +55,7 @@ class MyTray(QSystemTrayIcon):
 
     def __init__(self):
         super().__init__()
-        self.setIcon(QIcon(r'images\eye.jpg'))  # 设置系统托盘图标
+        self.setIcon(QIcon(wDir + r'\images\eye.jpg'))  # 设置系统托盘图标
         self.setToolTip('Eyes')
         self.activated.connect(self.act)  # 设置托盘点击事件处理函数
         self.tray_menu = QMenu(QApplication.desktop())  # 创建菜单
@@ -174,7 +172,7 @@ class MyRest(QMainWindow, Eyes_ui.Ui_MainWindow):
 
     def initUi(self):
         self.setWindowFlags(Qt.WindowMinimizeButtonHint | Qt.WindowCloseButtonHint)  # 设置窗口样式
-        self.setWindowIcon(QIcon(r'images\eye.jpg'))  # 设置窗口图标
+        self.setWindowIcon(QIcon(wDir + r'\images\eye.jpg'))  # 设置窗口图标
         self.pushButton.setStyleSheet("QPushButton{color:black}"  # 设置按钮QSS
                                       "QPushButton:hover{color:white}"
                                       "QPushButton{background-color:red}"
@@ -214,7 +212,7 @@ class MyRest(QMainWindow, Eyes_ui.Ui_MainWindow):
         self.label_3.setStyleSheet("QLabel:hover{color:violet}""QLabel{color:white}")  # 设置标签QSS
         palette = QPalette()  # 设置背景
         palette.setBrush(self.backgroundRole(),
-                         QBrush(QPixmap(r"images\timg.jpg")))
+                         QBrush(QPixmap(wDir + r"\images\timg.jpg")))
         self.setPalette(palette)
         self.pushButton_2.setEnabled(False)  # 将Stop Looping按钮设置为不可点击
         if os.path.exists(path_created):  # 记住上次的选择
@@ -270,7 +268,7 @@ class MyRest(QMainWindow, Eyes_ui.Ui_MainWindow):
         settings['interval'], settings['rest'], settings[
             'music_path'] = self.timeEdit.time().minute(), self.timeEdit_2.time().minute(), self.lineEdit.text()
         try:
-            with open(r'settings.json', 'w') as f:
+            with open(wDir + r'\settings.json', 'w') as f:
                 json.dump(settings, f)
         except FileNotFoundError:
             QMessageBox.information(self, 'Message', 'File is Not Found !')
@@ -293,7 +291,7 @@ if __name__ == '__main__':
     myrest = MyRest()
     mytray = MyTray()
     # 读取用户上一次保存的数据并显示为默认值(第一次运行之前若没有json文件，则需手动创建json文件并存入初始数据)
-    with open(r'settings.json', 'r') as f:
+    with open(wDir + r'\settings.json', 'r') as f:
         settings = json.load(f)
     myrest.timeEdit.setTime(QTime(0, settings['interval']))
     myrest.timeEdit_2.setTime(QTime(0, settings['rest']))
